@@ -1,5 +1,6 @@
 'use strict';
 
+const utils = require('./utils');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -22,10 +23,7 @@ module.exports.list = (event, context, callback) => {
         }
 
         // create a response
-        const response = {
-            statusCode: 200,
-            body: JSON.stringify(result.Items),
-        };
+        const response = utils.createSuccessResponse(result.Items);
         callback(null, response);
     });
 };
