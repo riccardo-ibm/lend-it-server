@@ -47,6 +47,30 @@ functions:
           method: get
           cors: true
 
+  get:
+    handler: listing/get.get
+    events:
+      - http:
+          path: listings/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: listing/update.update
+    events:
+      - http:
+          path: listings/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: listing/delete.delete
+    events:
+      - http:
+          path: listings/{id}
+          method: delete
+          cors: true
+
 resources:
   Resources:
     TodosDynamoDbTable:
