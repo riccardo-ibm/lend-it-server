@@ -14,3 +14,7 @@ module.exports.createHttpResponse = (statusCode, headers, data) => {
 module.exports.createSuccessResponse = (data) => {
     return module.exports.createHttpResponse(200, {}, data);
 }
+
+module.exports.createErrorResponse = (errorCode, data) => {
+    return module.exports.createHttpResponse(errorCode, { 'Content-Type': 'text/plain' }, data);
+}

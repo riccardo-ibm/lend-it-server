@@ -2,6 +2,7 @@
 
 const uuid = require('uuid');
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const { createSuccessResponse, createErrorResponse } = require('./utils');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -35,19 +36,11 @@ module.exports.create = (event, context, callback) => {
         // handle potential errors
         if (error) {
             console.error(error);
-            callback(null, {
-                statusCode: error.statusCode || 501,
-                headers: { 'Content-Type': 'text/plain' },
-                body: 'Couldn\'t create the todo item.',
-            });
+            callback(null, createErrorResponse(error.statusCode || 501, 'Couldn\'t create the listing.'));
             return;
         }
 
-        // create a response
-        const response = {
-            statusCode: 200,
-            body: JSON.stringify(params.Item),
-        };
+        const response = createSuccessResponse(params.Item);
         callback(null, response);
     });
 };
