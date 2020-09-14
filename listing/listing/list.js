@@ -21,8 +21,8 @@ module.exports.list = (event, context, callback) => {
             });
             return;
         }
-
         // create a response
+        result.Items.map(item => utils.extendListing(item));
         const response = utils.createSuccessResponse(result.Items);
         callback(null, response);
     });

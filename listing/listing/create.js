@@ -26,6 +26,7 @@ module.exports.create = (event, context, callback) => {
             name: data.name,
             description: data.description,
             price: data.price,
+            images: data.images,
             createdAt: timestamp,
             updatedAt: timestamp,
         },

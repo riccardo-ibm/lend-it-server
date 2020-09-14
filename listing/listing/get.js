@@ -1,7 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
-const { createErrorResponse, createSuccessResponse } = require('./utils');
+const { createErrorResponse, createSuccessResponse, extendListing } = require('./utils');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -21,7 +21,7 @@ module.exports.get = (event, context, callback) => {
             callback(null, createErrorResponse(error.statusCode || 501, `Couldn't fetch the listing`))
             return;
         }
-
+        extendListing(result.Item);
         // create a response
         const response = createSuccessResponse(result.Item);
         callback(null, response);
