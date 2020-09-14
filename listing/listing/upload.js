@@ -12,17 +12,18 @@ module.exports.upload = (event, context, callback) => {
     const imageBuffer = Buffer.from(data.base64Image, 'base64');
     FileType.fromBuffer(imageBuffer).then(res => {
         const fileName = `${uuid.v1()}.${res.ext}`;
-        s3.putObject({
+        s3.upload({
             Bucket: process.env.IMAGE_BUCKET,
             Key: fileName,
             Body: imageBuffer,
         }, (err, response) => {
+            console.log(response);
             if (err) {
                 callback(null, createErrorResponse(err.statusCode, `Couldn't upload the file`));
             }
             else {
                 callback(null, createSuccessResponse({
-                    fileId: fileName
+                    fileUrl: response.Location
                 }))
             }
         });
