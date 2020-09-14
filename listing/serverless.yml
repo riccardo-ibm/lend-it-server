@@ -19,6 +19,7 @@ provider:
   runtime: nodejs12.x
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    IMAGE_BUCKET: 'lend-it.listing.images'
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -29,6 +30,11 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+        - s3:PutObjectAcl
+      Resource: "arn:aws:s3:::${self:provider.environment.IMAGE_BUCKET}/*"
 
 functions:
   create:
@@ -69,6 +75,14 @@ functions:
       - http:
           path: listings/{id}
           method: delete
+          cors: true
+
+  uploadImage:
+    handler: listing/upload.upload
+    events:
+      - http:
+          path: listings/upload-image
+          method: post
           cors: true
 
 resources:

@@ -86,6 +86,12 @@
         "LogGroupName": "/aws/lambda/listing-dev-delete"
       }
     },
+    "UploadImageLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/listing-dev-uploadImage"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -154,6 +160,14 @@
                     "dynamodb:DeleteItem"
                   ],
                   "Resource": "arn:aws:dynamodb:us-east-1:*:table/listing-dev"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:PutObject",
+                    "s3:PutObjectAcl"
+                  ],
+                  "Resource": "arn:aws:s3:::lend-it.listing.images/*"
                 }
               ]
             }
@@ -182,7 +196,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600053503934-2020-09-14T03:18:23.934Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600069522520-2020-09-14T07:45:22.520Z/listing.zip"
         },
         "FunctionName": "listing-dev-create",
         "Handler": "listing/create.create",
@@ -197,7 +211,8 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "listing-dev"
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images"
           }
         }
       },
@@ -205,14 +220,14 @@
         "CreateLogGroup"
       ]
     },
-    "CreateLambdaVersion7ecFrxPW4pV4PcZESPRwMqKZuZolgh8Ct6AA1RKDsD4": {
+    "CreateLambdaVersion0kHw5cno1DeYMrfloI18g8v7LYCFaDcLR4gRYxJVqY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateLambdaFunction"
         },
-        "CodeSha256": "Milm0cJWcAYFyKRbBEkV0QTCbelBdrSfn12Em75FXEM="
+        "CodeSha256": "JkHlfETfDaAQE8z4MgigimfEz9P7PdZcBwsl7bRdF90="
       }
     },
     "ListLambdaFunction": {
@@ -222,7 +237,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600053503934-2020-09-14T03:18:23.934Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600069522520-2020-09-14T07:45:22.520Z/listing.zip"
         },
         "FunctionName": "listing-dev-list",
         "Handler": "listing/list.list",
@@ -237,7 +252,8 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "listing-dev"
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images"
           }
         }
       },
@@ -245,14 +261,14 @@
         "ListLogGroup"
       ]
     },
-    "ListLambdaVersionDq4uoR6dBzlItcRq4yXx3jgaTh2VdpaZ1g3M2qsmeE": {
+    "ListLambdaVersionjgg9kxDLjDIkz4y7RlT31DqL5kAceYOliT6sBjx8FA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListLambdaFunction"
         },
-        "CodeSha256": "Milm0cJWcAYFyKRbBEkV0QTCbelBdrSfn12Em75FXEM="
+        "CodeSha256": "JkHlfETfDaAQE8z4MgigimfEz9P7PdZcBwsl7bRdF90="
       }
     },
     "GetLambdaFunction": {
@@ -262,7 +278,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600053503934-2020-09-14T03:18:23.934Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600069522520-2020-09-14T07:45:22.520Z/listing.zip"
         },
         "FunctionName": "listing-dev-get",
         "Handler": "listing/get.get",
@@ -277,7 +293,8 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "listing-dev"
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images"
           }
         }
       },
@@ -285,14 +302,14 @@
         "GetLogGroup"
       ]
     },
-    "GetLambdaVersion5mCqTxgHFLUgJgDm6nx8AY0oi74ijeyxSe6YtmqmTxs": {
+    "GetLambdaVersionwZ6gNweDujCxmStBBm9XOX88ARqHsnCTkk9eiiUvM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetLambdaFunction"
         },
-        "CodeSha256": "Milm0cJWcAYFyKRbBEkV0QTCbelBdrSfn12Em75FXEM="
+        "CodeSha256": "JkHlfETfDaAQE8z4MgigimfEz9P7PdZcBwsl7bRdF90="
       }
     },
     "UpdateLambdaFunction": {
@@ -302,7 +319,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600053503934-2020-09-14T03:18:23.934Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600069522520-2020-09-14T07:45:22.520Z/listing.zip"
         },
         "FunctionName": "listing-dev-update",
         "Handler": "listing/update.update",
@@ -317,7 +334,8 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "listing-dev"
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images"
           }
         }
       },
@@ -325,14 +343,14 @@
         "UpdateLogGroup"
       ]
     },
-    "UpdateLambdaVersioneeSOCyjMdps8vS6SMFvH8Mws1JpmHj5xm92vtukBcL4": {
+    "UpdateLambdaVersionlBxbMNzL1IiFeo4eSqiXRClsmytIbuTJ2u5E8EiI4Gg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateLambdaFunction"
         },
-        "CodeSha256": "Milm0cJWcAYFyKRbBEkV0QTCbelBdrSfn12Em75FXEM="
+        "CodeSha256": "JkHlfETfDaAQE8z4MgigimfEz9P7PdZcBwsl7bRdF90="
       }
     },
     "DeleteLambdaFunction": {
@@ -342,7 +360,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600053503934-2020-09-14T03:18:23.934Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600069522520-2020-09-14T07:45:22.520Z/listing.zip"
         },
         "FunctionName": "listing-dev-delete",
         "Handler": "listing/delete.delete",
@@ -357,7 +375,8 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "DYNAMODB_TABLE": "listing-dev"
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images"
           }
         }
       },
@@ -365,14 +384,55 @@
         "DeleteLogGroup"
       ]
     },
-    "DeleteLambdaVersionX4qXvSNKvWyVDEMh4MV2SydySr2sWIRwi08mtHxnLcI": {
+    "DeleteLambdaVersion9vtGe7oBWaSsxDfNMlJ77TKvsM74NPmMeT3bNXmGco": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteLambdaFunction"
         },
-        "CodeSha256": "Milm0cJWcAYFyKRbBEkV0QTCbelBdrSfn12Em75FXEM="
+        "CodeSha256": "JkHlfETfDaAQE8z4MgigimfEz9P7PdZcBwsl7bRdF90="
+      }
+    },
+    "UploadImageLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/listing/dev/1600069522520-2020-09-14T07:45:22.520Z/listing.zip"
+        },
+        "FunctionName": "listing-dev-uploadImage",
+        "Handler": "listing/upload.upload",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images"
+          }
+        }
+      },
+      "DependsOn": [
+        "UploadImageLogGroup"
+      ]
+    },
+    "UploadImageLambdaVersionZuGoCrKMNscyeUUVgbYNNWVeeaTlQgblcGzktC4mRNY": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "UploadImageLambdaFunction"
+        },
+        "CodeSha256": "JkHlfETfDaAQE8z4MgigimfEz9P7PdZcBwsl7bRdF90="
       }
     },
     "ApiGatewayRestApi": {
@@ -409,6 +469,18 @@
           "Ref": "ApiGatewayResourceListings"
         },
         "PathPart": "{id}",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceListingsUploadDashimage": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceListings"
+        },
+        "PathPart": "upload-image",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -498,6 +570,51 @@
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceListingsIdVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodListingsUploadDashimageOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+              },
+              "ResponseTemplates": {
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceListingsUploadDashimage"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -719,7 +836,50 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1600053502409": {
+    "ApiGatewayMethodListingsUploadDashimagePost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceListingsUploadDashimage"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "UploadImageLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1600069521397": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -730,11 +890,13 @@
       "DependsOn": [
         "ApiGatewayMethodListingsOptions",
         "ApiGatewayMethodListingsIdVarOptions",
+        "ApiGatewayMethodListingsUploadDashimageOptions",
         "ApiGatewayMethodListingsPost",
         "ApiGatewayMethodListingsGet",
         "ApiGatewayMethodListingsIdVarGet",
         "ApiGatewayMethodListingsIdVarPut",
-        "ApiGatewayMethodListingsIdVarDelete"
+        "ApiGatewayMethodListingsIdVarDelete",
+        "ApiGatewayMethodListingsUploadDashimagePost"
       ]
     },
     "CreateLambdaPermissionApiGateway": {
@@ -922,6 +1084,43 @@
         }
       }
     },
+    "UploadImageLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "UploadImageLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
     "TodosDynamoDbTable": {
       "Type": "AWS::DynamoDB::Table",
       "DeletionPolicy": "Retain",
@@ -955,31 +1154,37 @@
     "CreateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateLambdaVersion7ecFrxPW4pV4PcZESPRwMqKZuZolgh8Ct6AA1RKDsD4"
+        "Ref": "CreateLambdaVersion0kHw5cno1DeYMrfloI18g8v7LYCFaDcLR4gRYxJVqY"
       }
     },
     "ListLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListLambdaVersionDq4uoR6dBzlItcRq4yXx3jgaTh2VdpaZ1g3M2qsmeE"
+        "Ref": "ListLambdaVersionjgg9kxDLjDIkz4y7RlT31DqL5kAceYOliT6sBjx8FA"
       }
     },
     "GetLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetLambdaVersion5mCqTxgHFLUgJgDm6nx8AY0oi74ijeyxSe6YtmqmTxs"
+        "Ref": "GetLambdaVersionwZ6gNweDujCxmStBBm9XOX88ARqHsnCTkk9eiiUvM"
       }
     },
     "UpdateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateLambdaVersioneeSOCyjMdps8vS6SMFvH8Mws1JpmHj5xm92vtukBcL4"
+        "Ref": "UpdateLambdaVersionlBxbMNzL1IiFeo4eSqiXRClsmytIbuTJ2u5E8EiI4Gg"
       }
     },
     "DeleteLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteLambdaVersionX4qXvSNKvWyVDEMh4MV2SydySr2sWIRwi08mtHxnLcI"
+        "Ref": "DeleteLambdaVersion9vtGe7oBWaSsxDfNMlJ77TKvsM74NPmMeT3bNXmGco"
+      }
+    },
+    "UploadImageLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "UploadImageLambdaVersionZuGoCrKMNscyeUUVgbYNNWVeeaTlQgblcGzktC4mRNY"
       }
     },
     "ServiceEndpoint": {
