@@ -7,6 +7,7 @@ const { createSuccessResponse, createErrorResponse } = require('./utils');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.create = (event, context, callback) => {
+    const principalId = event.requestContext.authorizer.principalId;
     const timestamp = new Date().getTime();
     const data = JSON.parse(event.body);
     if (typeof data.name !== 'string' || typeof data.description !== 'string' || typeof data.price !== 'number') {
@@ -27,6 +28,7 @@ module.exports.create = (event, context, callback) => {
             description: data.description,
             price: data.price,
             images: data.images,
+            user: principalId,
             createdAt: timestamp,
             updatedAt: timestamp,
         },

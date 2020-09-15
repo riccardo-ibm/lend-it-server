@@ -56,6 +56,12 @@
         }
       }
     },
+    "AuthLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/listing-dev-auth"
+      }
+    },
     "CreateLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -189,6 +195,49 @@
         }
       }
     },
+    "AuthLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
+        },
+        "FunctionName": "listing-dev-auth",
+        "Handler": "auth/auth.auth",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "DYNAMODB_TABLE": "listing-dev",
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
+          }
+        }
+      },
+      "DependsOn": [
+        "AuthLogGroup"
+      ]
+    },
+    "AuthLambdaVersionlgOlg1wr1HicO2fivn263eA2fmdP21cEHiNG6aJipc": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLambdaFunction"
+        },
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
+      }
+    },
     "CreateLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -196,7 +245,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600077152610-2020-09-14T09:52:32.610Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
         },
         "FunctionName": "listing-dev-create",
         "Handler": "listing/create.create",
@@ -212,7 +261,9 @@
         "Environment": {
           "Variables": {
             "DYNAMODB_TABLE": "listing-dev",
-            "IMAGE_BUCKET": "lend-it.listing.images"
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
           }
         }
       },
@@ -220,14 +271,14 @@
         "CreateLogGroup"
       ]
     },
-    "CreateLambdaVersion6x31blnbezjWucJECyOylPYvugngpjcwj6rn3HwRc": {
+    "CreateLambdaVersionBs9luIFG4zBlh3CrZ61Syq2KLdzzgNG9ZgqJcNzMD4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateLambdaFunction"
         },
-        "CodeSha256": "AqtW0J7JqrlszUeEDSb6o8NuJQVullec1Mj6vJYiOCA="
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
       }
     },
     "ListLambdaFunction": {
@@ -237,7 +288,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600077152610-2020-09-14T09:52:32.610Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
         },
         "FunctionName": "listing-dev-list",
         "Handler": "listing/list.list",
@@ -253,7 +304,9 @@
         "Environment": {
           "Variables": {
             "DYNAMODB_TABLE": "listing-dev",
-            "IMAGE_BUCKET": "lend-it.listing.images"
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
           }
         }
       },
@@ -261,14 +314,14 @@
         "ListLogGroup"
       ]
     },
-    "ListLambdaVersionSyKz5svmQ0h51kmrFk0uayYaspPMV74BzG7Y9kJRBE": {
+    "ListLambdaVersionKay61y3X64zPlb6gThpRzS6BX1dkJ3mcvBzPfSKbE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListLambdaFunction"
         },
-        "CodeSha256": "AqtW0J7JqrlszUeEDSb6o8NuJQVullec1Mj6vJYiOCA="
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
       }
     },
     "GetLambdaFunction": {
@@ -278,7 +331,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600077152610-2020-09-14T09:52:32.610Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
         },
         "FunctionName": "listing-dev-get",
         "Handler": "listing/get.get",
@@ -294,7 +347,9 @@
         "Environment": {
           "Variables": {
             "DYNAMODB_TABLE": "listing-dev",
-            "IMAGE_BUCKET": "lend-it.listing.images"
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
           }
         }
       },
@@ -302,14 +357,14 @@
         "GetLogGroup"
       ]
     },
-    "GetLambdaVersionLxAKmw1RL1U2V5BePXpLroq6HVGt0oiOPl3yauLn5CU": {
+    "GetLambdaVersionQdigAjbAsUXbHWBnn21DlVoWY6bGPol1P23xMnB9low": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetLambdaFunction"
         },
-        "CodeSha256": "AqtW0J7JqrlszUeEDSb6o8NuJQVullec1Mj6vJYiOCA="
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
       }
     },
     "UpdateLambdaFunction": {
@@ -319,7 +374,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600077152610-2020-09-14T09:52:32.610Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
         },
         "FunctionName": "listing-dev-update",
         "Handler": "listing/update.update",
@@ -335,7 +390,9 @@
         "Environment": {
           "Variables": {
             "DYNAMODB_TABLE": "listing-dev",
-            "IMAGE_BUCKET": "lend-it.listing.images"
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
           }
         }
       },
@@ -343,14 +400,14 @@
         "UpdateLogGroup"
       ]
     },
-    "UpdateLambdaVersionIlylFRpv9opDZckPc5zKpGMlOyhW7aeQNGTJBfNr0": {
+    "UpdateLambdaVersionlijo3iiiY7SIu3XBuYMY41PLJr00EmuX9keTLHEaHQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateLambdaFunction"
         },
-        "CodeSha256": "AqtW0J7JqrlszUeEDSb6o8NuJQVullec1Mj6vJYiOCA="
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
       }
     },
     "DeleteLambdaFunction": {
@@ -360,7 +417,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600077152610-2020-09-14T09:52:32.610Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
         },
         "FunctionName": "listing-dev-delete",
         "Handler": "listing/delete.delete",
@@ -376,7 +433,9 @@
         "Environment": {
           "Variables": {
             "DYNAMODB_TABLE": "listing-dev",
-            "IMAGE_BUCKET": "lend-it.listing.images"
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
           }
         }
       },
@@ -384,14 +443,14 @@
         "DeleteLogGroup"
       ]
     },
-    "DeleteLambdaVersionv0l05tf79BsBE2gVaeypNPWdvrMEmqKqiOobS3Zyg": {
+    "DeleteLambdaVersion2SbxS0xWL9SE55tknZ1kWRWbw6u1gOmAOuxJuZyjD9A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteLambdaFunction"
         },
-        "CodeSha256": "AqtW0J7JqrlszUeEDSb6o8NuJQVullec1Mj6vJYiOCA="
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
       }
     },
     "UploadImageLambdaFunction": {
@@ -401,7 +460,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/listing/dev/1600077152610-2020-09-14T09:52:32.610Z/listing.zip"
+          "S3Key": "serverless/listing/dev/1600135461095-2020-09-15T02:04:21.095Z/listing.zip"
         },
         "FunctionName": "listing-dev-uploadImage",
         "Handler": "listing/upload.upload",
@@ -417,7 +476,9 @@
         "Environment": {
           "Variables": {
             "DYNAMODB_TABLE": "listing-dev",
-            "IMAGE_BUCKET": "lend-it.listing.images"
+            "IMAGE_BUCKET": "lend-it.listing.images",
+            "AUTH0_CLIENT_ID": "IgScpulqHOWi6MmJtlxS1vUP7b2T2cBc",
+            "AUTH0_CLIENT_PUBLIC_KEY": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCAfWgAwIBAgIJb7vx6Ef6fP71MA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV\r\nBAMTGWRldi0wdmJrZDNwYy5hdS5hdXRoMC5jb20wHhcNMjAwOTE0MTM0NTA4WhcN\r\nMzQwNTI0MTM0NTA4WjAkMSIwIAYDVQQDExlkZXYtMHZia2QzcGMuYXUuYXV0aDAu\r\nY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA439rB7BIToXghKQC\r\nZi8bF2WhjuE4SEYrlgOIYv/0Ro+PWpIaz1aqxnhq3S3ITOdWKSoPv43S6jjL/VlC\r\ntc0JwBBERkGsHN5KWDtp+oH3wHHFdrzzb0A58YM3N9uqvmnHs6Sj15bmFveQGaqM\r\neHL85aGT5LhHQuIGb+s+vrKz5ng8kGR8o0Mdspv87mG1AFAtmN6gfvs61nD9CJaY\r\nZ1WSBuaY8Y+Ckw3iW2hcwqGikJPcXBkgc12h58D0HydedicIp4COIEEd/gNw2J1g\r\nowEn0NEYf2ABGlTJiee1iisDn+s9GsEBxZwSzP3+PqtaMdL9dMv+u+/jtwGqFLIn\r\nksVF3wIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRjJ4cUHLqM\r\nKEsGv3RmDtjJSKgerzAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEB\r\nAMfRiGEpjKDOMkoNoMQ6aU8mR6NXljpvrCNPZt9xnx2vrjH9eW3+9Ya1ISz/fDPK\r\nZ11lkfezh2/BrQGjD/h4iF/7GyY31waf80HYL7Mu+PIQhOC3G3sfSiiOyUAl8j3c\r\nuglQvV2JIMJhI4o2cqrdSEGM7nGcDEvE0mnIqRBO22HRUpVnrqzX6lfYkAm767Y3\r\n2h5Dj91GOK+VJ1vxdS7ZO/EnJkDDvbtWcbjz9fbprMW555LYq415dY7+Vhs5IUqG\r\nec9s7nadpUx+IiAWEdeZg0I5YlDz3PBuot0ADQcYqluVbpPa+AcYD9nvo01IdMYe\r\nSoH9imVavlnGLbQy/O37/xQ=\r\n-----END CERTIFICATE-----"
           }
         }
       },
@@ -425,14 +486,14 @@
         "UploadImageLogGroup"
       ]
     },
-    "UploadImageLambdaVersionWFXgw8XkasYnjARglqEjyWBCpwO8NT9Gk7QlGjdkC74": {
+    "UploadImageLambdaVersiondEbXbViic7sSQBLVaUwhBkCFe1MkcVXV05Z4ZUqjJBE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UploadImageLambdaFunction"
         },
-        "CodeSha256": "AqtW0J7JqrlszUeEDSb6o8NuJQVullec1Mj6vJYiOCA="
+        "CodeSha256": "MD5OI7GPTGf9QqilrMDCLIVZ8+7EjnxycbNHXT1hzEU="
       }
     },
     "ApiGatewayRestApi": {
@@ -633,7 +694,10 @@
           "Ref": "ApiGatewayRestApi"
         },
         "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AuthApiGatewayAuthorizer"
+        },
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -662,7 +726,8 @@
           }
         },
         "MethodResponses": []
-      }
+      },
+      "DependsOn": "AuthApiGatewayAuthorizer"
     },
     "ApiGatewayMethodListingsGet": {
       "Type": "AWS::ApiGateway::Method",
@@ -762,7 +827,10 @@
           "Ref": "ApiGatewayRestApi"
         },
         "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AuthApiGatewayAuthorizer"
+        },
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -791,7 +859,8 @@
           }
         },
         "MethodResponses": []
-      }
+      },
+      "DependsOn": "AuthApiGatewayAuthorizer"
     },
     "ApiGatewayMethodListingsIdVarDelete": {
       "Type": "AWS::ApiGateway::Method",
@@ -805,7 +874,10 @@
           "Ref": "ApiGatewayRestApi"
         },
         "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AuthApiGatewayAuthorizer"
+        },
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -834,7 +906,8 @@
           }
         },
         "MethodResponses": []
-      }
+      },
+      "DependsOn": "AuthApiGatewayAuthorizer"
     },
     "ApiGatewayMethodListingsUploadDashimagePost": {
       "Type": "AWS::ApiGateway::Method",
@@ -848,7 +921,10 @@
           "Ref": "ApiGatewayRestApi"
         },
         "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AuthApiGatewayAuthorizer"
+        },
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -877,9 +953,44 @@
           }
         },
         "MethodResponses": []
+      },
+      "DependsOn": "AuthApiGatewayAuthorizer"
+    },
+    "AuthApiGatewayAuthorizer": {
+      "Type": "AWS::ApiGateway::Authorizer",
+      "Properties": {
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "auth",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "AuthorizerUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":apigateway:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "AuthLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "/invocations"
+            ]
+          ]
+        },
+        "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1600077150252": {
+    "ApiGatewayDeployment1600135458867": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -905,6 +1016,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "CreateLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "AuthLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AuthLambdaFunction",
             "Arn"
           ]
         },
@@ -1143,6 +1291,34 @@
         },
         "TableName": "listing-dev"
       }
+    },
+    "GatewayResponse": {
+      "Type": "AWS::ApiGateway::GatewayResponse",
+      "Properties": {
+        "ResponseParameters": {
+          "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+          "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+        },
+        "ResponseType": "EXPIRED_TOKEN",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "StatusCode": "401"
+      }
+    },
+    "AuthFailureGatewayResponse": {
+      "Type": "AWS::ApiGateway::GatewayResponse",
+      "Properties": {
+        "ResponseParameters": {
+          "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+          "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+        },
+        "ResponseType": "UNAUTHORIZED",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "StatusCode": "401"
+      }
     }
   },
   "Outputs": {
@@ -1151,40 +1327,46 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
+    "AuthLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AuthLambdaVersionlgOlg1wr1HicO2fivn263eA2fmdP21cEHiNG6aJipc"
+      }
+    },
     "CreateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateLambdaVersion6x31blnbezjWucJECyOylPYvugngpjcwj6rn3HwRc"
+        "Ref": "CreateLambdaVersionBs9luIFG4zBlh3CrZ61Syq2KLdzzgNG9ZgqJcNzMD4"
       }
     },
     "ListLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListLambdaVersionSyKz5svmQ0h51kmrFk0uayYaspPMV74BzG7Y9kJRBE"
+        "Ref": "ListLambdaVersionKay61y3X64zPlb6gThpRzS6BX1dkJ3mcvBzPfSKbE"
       }
     },
     "GetLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetLambdaVersionLxAKmw1RL1U2V5BePXpLroq6HVGt0oiOPl3yauLn5CU"
+        "Ref": "GetLambdaVersionQdigAjbAsUXbHWBnn21DlVoWY6bGPol1P23xMnB9low"
       }
     },
     "UpdateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateLambdaVersionIlylFRpv9opDZckPc5zKpGMlOyhW7aeQNGTJBfNr0"
+        "Ref": "UpdateLambdaVersionlijo3iiiY7SIu3XBuYMY41PLJr00EmuX9keTLHEaHQ"
       }
     },
     "DeleteLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteLambdaVersionv0l05tf79BsBE2gVaeypNPWdvrMEmqKqiOobS3Zyg"
+        "Ref": "DeleteLambdaVersion2SbxS0xWL9SE55tknZ1kWRWbw6u1gOmAOuxJuZyjD9A"
       }
     },
     "UploadImageLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UploadImageLambdaVersionWFXgw8XkasYnjARglqEjyWBCpwO8NT9Gk7QlGjdkC74"
+        "Ref": "UploadImageLambdaVersiondEbXbViic7sSQBLVaUwhBkCFe1MkcVXV05Z4ZUqjJBE"
       }
     },
     "ServiceEndpoint": {
